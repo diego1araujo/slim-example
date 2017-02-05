@@ -2,52 +2,44 @@
 
 session_start();
 
-date_default_timezone_set("America/Recife");
+date_default_timezone_set('America/Recife');
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new \Slim\App([
-    'settings' => [
-        'displayErrorDetails' => true,
-        'db' => [
-            'driver'     => 'mysql',
-            'host'       => 'localhost',
-            'database'   => '',
-            'username'   => 'root',
-            'password'   => '',
-            'charset'    => 'utf8',
-            'collaction' => 'utf8_general_ci',
-            'prefix'     => '',
-        ]
-    ]
-]);
+$config = require __DIR__ . '/config.php';
+
+$app = new \Slim\App($config);
 
 $container = $app->getContainer();
 
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container['settings']['db']);
-$capsule->setAsGlobal();
 $capsule->bootEloquent();
+$capsule->setAsGlobal();
 
-$container['db'] = function ($container) use ($capsule) {
+$container['db'] = function ($c) use ($capsule) {
     return $capsule;
 };
 
-$container['view'] = function ($container) {
+$container['view'] = function ($c) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../views', [
         'cache' => false
     ]);
 
     $view->addExtension(new \Slim\Views\TwigExtension(
-        $container->router,
-        $container->request->getUri()
+        $c->router,
+        $c->request->getUri()
     ));
 
     return $view;
 };
 
-$container['HomeController'] = function ($container) {
-    return new \App\Controllers\HomeController($container->view);
+$container['HomeController'] = function ($c) {
+    return new \App\Controllers\HomeController($c->view);
+};
+
+$container['UserController'] = function ($c) {
+    return new \App\Controllers\UserController($c->view);
 };
 
 require __DIR__ . '/../app/routes.php';
