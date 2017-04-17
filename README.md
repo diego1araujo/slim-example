@@ -3,7 +3,7 @@
 ### What's included?
 - Slim Framework 3 with Controllers
 - Twig
-- Eloquent (Illuiminate/Database)
+- Eloquent (Illuminate/Database)
 - Validation (Respect/Validation)
 
 ## Install
