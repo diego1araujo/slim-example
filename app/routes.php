@@ -1,5 +1,5 @@
 <?php
 
-$app->get('/', 'HomeController:index')->setName('index');
-$app->get('/users', 'UserController:index');
-$app->post('/users/store', 'UserController:store');
+$app->get('/', '\App\Controllers\HomeController:index');
+$app->get('/users', '\App\Controllers\UserController:index');
+$app->post('/users/store', '\App\Controllers\UserController:store');
