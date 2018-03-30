@@ -2,35 +2,22 @@
 
 namespace App;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Respect\Validation\Exceptions\NestedValidationException;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Factory;
 
 class Validator
 {
-    protected $errors = [];
-
-    public function validate(Request $request, array $rules)
+    public static function make($request, $rules)
     {
-        foreach ($rules as $field => $rule) {
-            try {
-                $rule->setName(ucfirst($field))->assert($request->getParam($field));
-            } catch (NestedValidationException $e) {
-                $this->errors[$field] = $e->getMessages();
-            }
-        }
+        $languagePath = __DIR__ . '/../resources/lang';
+        $languageDefault = 'en';
 
-        $_SESSION['errors'] = $this->errors;
+        $loader = new FileLoader(new Filesystem, $languagePath);
+        $translator = new Translator($loader, $languageDefault);
+        $validation = new Factory($translator);
 
-        return $this;
-    }
-
-    public function fails()
-    {
-        return !empty($this->errors);
-    }
-
-    public function errors()
-    {
-        return $this->errors;
+        return $validation->make($request->getParams(), $rules);
     }
 }
