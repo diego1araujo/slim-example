@@ -4,57 +4,39 @@ namespace App\Controllers;
 
 use App\Models\User;
 use App\Validator;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Respect\Validation\Validator as v;
-use Slim\Views\Twig as View;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class UserController
 {
-    protected $view;
-    protected $validator;
-
-    public function __construct(View $view, Validator $validator)
-    {
-        $this->view = $view;
-        $this->validator = $validator;
-    }
-
     public function index(Request $request, Response $response)
     {
         $users = User::all();
 
-        return $this->view->render($response, 'user/home.twig', compact('users'));
+        return $response->withJson(['data' => $users], 200);
     }
 
     public function store(Request $request, Response $response)
     {
-        $rules = [
-            'name' => v::noWhiteSpace()->notEmpty()->alpha(),
-            'email' => v::noWhiteSpace()->notEmpty()->email(),
-            'password' => v::noWhiteSpace()->notEmpty()->length(8, null),
-        ];
+        $validation = Validator::make($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:5',
+            'confirm_password' => 'required|same:password'
+        ]);
 
-        $validation = $this->validator->validate($request, $rules);
+        if ($validation->fails()) {
+            return $response->withJson(['data' => 'Invalid fields.', 'errors' => $validation->errors()], 400);
+        }
 
-        var_dump($validation->fails());
-        var_dump($validation->errors());
+        $field = $request->getParams();
 
-        // $users = [
-        //     [
-        //         'name' => 'User 01',
-        //         'email' => 'user01@test.com',
-        //     ],
-        //     [
-        //         'name' => 'User 02',
-        //         'email' => 'user02@test.com',
-        //     ],
-        //     [
-        //         'name' => 'User 03',
-        //         'email' => 'user03@test.com',
-        //     ]
-        // ];
+        $insert = User::insert([
+            'name' => $field['name'],
+            'email' => $field['email'],
+            'password' => password_hash($field['password'], PASSWORD_BCRYPT, ['cost' => 12]),
+        ]);
 
-        // $insert = User::insert($users);
+        return $response->withJson(['data' => 'Successfull.'], 200);
     }
 }
