@@ -2,9 +2,8 @@
 
 ### What's included?
 - Slim Framework 3 with Controllers
-- Twig
 - Eloquent (Illuminate/Database)
-- Validation (Respect/Validation)
+- Validation (Illuminate/Validation)
 
 ## Install
 Clone this repo and install via composer
