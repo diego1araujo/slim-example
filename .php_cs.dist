@@ -1,0 +1,24 @@
+<?php
+
+$finder = (new PhpCsFixer\Finder())
+    ->files()
+    ->name("*.php")
+    ->in("app")
+    ->in("bootstrap")
+    ->in("public")
+    ->in("resources");
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@PSR2' => true,
+        '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'concat_space' => ['spacing' => 'one'],
+        'no_unused_imports' => false,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+        'ordered_class_elements' => true,
+        'simplified_null_return' => false,
+    ])->setFinder($finder);
