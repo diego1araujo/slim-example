@@ -1,8 +1,11 @@
 {
+    "name": "diego1araujo/slim-example",
+    "description": "A basic structure to kickoff a project.",
+    "license": "MIT",
     "require": {
-        "slim/slim": "^3.0",
-        "slim/twig-view": "^2.2",
-        "illuminate/database": "^5.4",
+        "slim/slim": "^3.9",
+        "slim/twig-view": "^2.3",
+        "illuminate/database": "^5.6",
         "respect/validation": "^1.1"
     },
     "autoload": {
