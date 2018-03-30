@@ -22,7 +22,7 @@ class UserController
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:5',
-            'confirm_password' => 'required|same:password'
+            'confirm_password' => 'required|same:password',
         ]);
 
         if ($validation->fails()) {

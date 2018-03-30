@@ -12,7 +12,7 @@ $app = new \Slim\App($settings);
 
 $container = $app->getContainer();
 
-$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule = new \Illuminate\Database\Capsule\Manager();
 $capsule->addConnection($container['connections'][$container['default']]);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
