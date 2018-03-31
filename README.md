@@ -1,7 +1,7 @@
 ## Basic structure to initiate a project with Slim Framework
 
 ### What's included?
-- Slim Framework 3 with Controllers
+- Slim Framework 3
 - Eloquent (Illuminate/Database)
 - Validation (Illuminate/Validation)
 
