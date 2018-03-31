@@ -1,3 +1,5 @@
 vendor/
 composer.lock
-*sublime*
+.php_cs.cache
+.vscode
+resources/cache
