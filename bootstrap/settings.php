@@ -3,18 +3,21 @@
 return [
     'settings' => [
         'displayErrorDetails' => true,
+        'view' => [
+            'path' => __DIR__ . '/../resources/views',
+            'cache' => __DIR__ . '/../resources/cache',
+        ],
     ],
-    'locale' => 'en',
-    'default' => 'localhost',
+    'default' => 'development',
     'connections' => [
-        'localhost' => [
+        'development' => [
             'driver' => 'mysql',
             'host' => 'localhost',
             'database' => '',
             'username' => 'root',
             'password' => '',
-            'charset' => 'utf8',
-            'collation' => 'utf8_general_ci',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
         ],
         'production' => [
@@ -23,8 +26,8 @@ return [
             'database' => '',
             'username' => 'root',
             'password' => '',
-            'charset' => 'utf8',
-            'collation' => 'utf8_general_ci',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
         ],
     ],
