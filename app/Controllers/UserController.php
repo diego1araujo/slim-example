@@ -29,12 +29,10 @@ class UserController
             return $response->withJson(['data' => 'Invalid fields.', 'errors' => $validation->errors()], 400);
         }
 
-        $field = $request->getParams();
-
-        $insert = User::insert([
-            'name' => $field['name'],
-            'email' => $field['email'],
-            'password' => password_hash($field['password'], PASSWORD_BCRYPT, ['cost' => 12]),
+        $insert = User::create([
+            'name' => $request->getParam('name'),
+            'email' => $request->getParam('email'),
+            'password' => password_hash($request->getParam('password'), PASSWORD_BCRYPT, ['cost' => 12]),
         ]);
 
         return $response->withJson(['data' => 'Successfull.'], 200);
